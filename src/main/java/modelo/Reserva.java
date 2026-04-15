@@ -35,12 +35,14 @@ public class Reserva {
     //ToString
     @Override
     public String toString() {
-        return "ID: " + id +
-                " | " + cliente.getDni() +
-                " | " + fecha + " " + hora +
-                " | " + numPersonas + " pers" +
-                " | " + importePrevisto + "€" +
-                " | " + estado +
-                " | " + zona;
+        final StringBuffer sb = new StringBuffer("ID: ");
+        sb.append(id);
+        sb.append(" | ").append(cliente.getDni());
+        sb.append(" | ").append(fecha).append(" ").append(hora);
+        sb.append(" | ").append(numPersonas);
+        sb.append(" | ").append(importePrevisto + "€");
+        sb.append(" | ").append(estado);
+        sb.append(" | ").append(zona).append('\n');
+        return sb.toString();
     }
 }

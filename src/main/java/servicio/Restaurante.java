@@ -69,9 +69,10 @@ public class Restaurante {
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("Restaurante{\n");
+        sb.append("nombre='").append(nombre).append("'\n");
         sb.append("clientes=").append(clientes).append("\n");
         sb.append("reservas=").append(reservas).append("\n");
-        sb.append('}');
+        sb.append('}').append('\n');
         return sb.toString();
     }
 }

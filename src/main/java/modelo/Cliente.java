@@ -16,13 +16,16 @@ public class Cliente {
     private String email;
     private String ciudad;
 
-    //toString
+    //ToString
     @Override
     public String toString() {
-        return "DNI: " + dni +
-                " | " + "Nombre: " + nombre +
-                " | " + email +
-                " | " + telefono +
-                " | " + ciudad;
+        final StringBuffer sb = new StringBuffer("DNI: ");
+        sb.append(dni);
+        sb.append(" | Nombre: ").append(nombre);
+        sb.append(" | ").append(email);
+        sb.append(" | ").append(telefono);
+        sb.append(" | ").append(ciudad).append('\n');
+        return sb.toString();
     }
 }
+
