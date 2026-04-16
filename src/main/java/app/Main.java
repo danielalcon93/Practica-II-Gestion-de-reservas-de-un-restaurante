@@ -4,56 +4,223 @@ import modelo.Cliente;
 import modelo.EstadoReserva;
 import modelo.Reserva;
 import servicio.Restaurante;
+import servicio.RestauranteService;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Main {
 
-    static void main() {
+        //Clientes
+        public static void cargarClientes(Restaurante restaurante) {
+            restaurante.addCliente(new Cliente("48273615M", "Ana Pérez", "673829154", "ana@email.com", "Sevilla"));
+            restaurante.addCliente(new Cliente("59384726K", "Luis Gómez", "612947385", "luis@email.com", "Madrid"));
+            restaurante.addCliente(new Cliente("74125896T", "Marta Ruiz", "698231457", "marta@email.com", "Valencia"));
+            restaurante.addCliente(new Cliente("36925814P", "Carlos López", "645782319", "carlos@email.com", "Málaga"));
+            restaurante.addCliente(new Cliente("85274163L", "Lucía Torres", "679314825", "lucia@email.com", "Granada"));
+            restaurante.addCliente(new Cliente("14785236R", "Pedro Díaz", "622518947", "pedro@email.com", "Bilbao"));
+            restaurante.addCliente(new Cliente("96385274S", "Sara León", "687429153", "sara@email.com", "Zaragoza"));
+            restaurante.addCliente(new Cliente("25836914N", "David Castro", "655193728", "david@email.com", "Alicante"));
+        }
 
-        Restaurante r = new Restaurante("Bar leyendas");
 
-        // CLIENTES
-        Cliente c1 = new Cliente("48273615M", "Ana Pérez", "673829154", "ana@email.com", "Sevilla");
-        Cliente c2 = new Cliente("59384726K", "Luis Gómez", "612947385", "luis@email.com", "Madrid");
-        Cliente c3 = new Cliente("74125896T", "Marta Ruiz", "698231457", "marta@email.com", "Valencia");
-        Cliente c4 = new Cliente("36925814P", "Carlos López", "645782319", "carlos@email.com", "Málaga");
-        Cliente c5 = new Cliente("85274163L", "Lucía Torres", "679314825", "lucia@email.com", "Granada");
-        Cliente c6 = new Cliente("14785236R", "Pedro Díaz", "622518947", "pedro@email.com", "Bilbao");
-        Cliente c7 = new Cliente("96385274S", "Sara León", "687429153", "sara@email.com", "Zaragoza");
-        Cliente c8 = new Cliente("25836914N", "David Castro", "655193728", "david@email.com", "Alicante");
+        // RESERVAS
+        public static void cargarReservas(Restaurante restaurante) {
+            LocalDate hoy = LocalDate.now();
 
-        r.addCliente(c1);
-        r.addCliente(c2);
-        r.addCliente(c3);
-        r.addCliente(c4);
-        r.addCliente(c5);
-        r.addCliente(c6);
-        r.addCliente(c7);
-        r.addCliente(c8);
+            restaurante.addReserva(new Reserva(
+                    restaurante.getClientePorDni("48273615M"),
+                    hoy,
+                    LocalTime.of(14, 0),
+                    2,
+                    30.0,
+                    EstadoReserva.CONFIRMADA,
+                    "interior"));
 
-        // RESERVAS (todas futuras)
-        LocalDate hoy = LocalDate.now();
+            restaurante.addReserva(new Reserva(
+                    restaurante.getClientePorDni("59384726K"),
+                    hoy,
+                    LocalTime.of(16, 0),
+                    4,
+                    80.0,
+                    EstadoReserva.CONFIRMADA,
+                    "terraza"));
 
-        r.addReserva(new Reserva(c1, hoy.plusDays(15), LocalTime.of(14, 0), 2, 30.0, EstadoReserva.CONFIRMADA, "interior"));
-        r.addReserva(new Reserva(c2, hoy.plusDays(20), LocalTime.of(21, 30), 4, 80.0, EstadoReserva.PENDIENTE, "terraza"));
-        r.addReserva(new Reserva(c3, hoy.plusDays(30), LocalTime.of(13, 30), 3, 45.0, EstadoReserva.ATENDIDA, "barra"));
-        r.addReserva(new Reserva(c4, hoy.plusDays(11), LocalTime.of(22, 0), 5, 100.0, EstadoReserva.CANCELADA, "terraza"));
-        r.addReserva(new Reserva(c5, hoy.plusDays(43), LocalTime.of(14, 30), 2, 35.0, EstadoReserva.CONFIRMADA, "interior"));
-        r.addReserva(new Reserva(c6, hoy.plusDays(25), LocalTime.of(21, 0), 6, 120.0, EstadoReserva.PENDIENTE, "terraza"));
-        r.addReserva(new Reserva(c7, hoy.plusDays(20), LocalTime.of(13, 0), 2, 25.0, EstadoReserva.ATENDIDA, "barra"));
-        r.addReserva(new Reserva(c8, hoy.plusDays(16), LocalTime.of(20, 30), 4, 75.0, EstadoReserva.CONFIRMADA, "interior"));
-        r.addReserva(new Reserva(c1, hoy.plusDays(17), LocalTime.of(14, 0), 3, 50.0, EstadoReserva.PENDIENTE, "terraza"));
-        r.addReserva(new Reserva(c2, hoy.plusDays(13), LocalTime.of(22, 30), 2, 40.0, EstadoReserva.CANCELADA, "barra"));
-        r.addReserva(new Reserva(c3, hoy.plusDays(8), LocalTime.of(13, 30), 5, 90.0, EstadoReserva.CONFIRMADA, "terraza"));
-        r.addReserva(new Reserva(c4, hoy.plusDays(12), LocalTime.of(21, 0), 2, 30.0, EstadoReserva.ATENDIDA, "interior"));
-        r.addReserva(new Reserva(c5, hoy.plusDays(20), LocalTime.of(14, 0), 4, 70.0, EstadoReserva.PENDIENTE, "barra"));
-        r.addReserva(new Reserva(c6, hoy.plusDays(28), LocalTime.of(22, 0), 3, 60.0, EstadoReserva.CONFIRMADA, "terraza"));
-        r.addReserva(new Reserva(c7, hoy.plusDays(21), LocalTime.of(13, 0), 2, 20.0, EstadoReserva.CANCELADA, "interior"));
-        r.addReserva(new Reserva(c8, hoy.plusDays(9), LocalTime.of(15, 15), 10, 75.0, EstadoReserva.CONFIRMADA, "Interior"));
+            restaurante.addReserva(new Reserva(
+                    restaurante.getClientePorDni("74125896T"),
+                    hoy,
+                    LocalTime.of(18, 30),
+                    3,
+                    45.0,
+                    EstadoReserva.CONFIRMADA,
+                    "barra"));
 
-        // MOSTRAR DATOS
-        System.out.println(r);
-    }
+            restaurante.addReserva(new Reserva(
+                    restaurante.getClientePorDni("36925814P"),
+                    hoy,
+                    LocalTime.of(20, 0),
+                    5,
+                    100.0,
+                    EstadoReserva.CONFIRMADA,
+                    "terraza"));
+
+            restaurante.addReserva(new Reserva(
+                    restaurante.getClientePorDni("85274163L"),
+                    hoy,
+                    LocalTime.of(22, 0),
+                    2,
+                    35.0,
+                    EstadoReserva.CONFIRMADA,
+                    "interior"));
+
+            restaurante.addReserva(new Reserva(
+                    restaurante.getClientePorDni("14785236R"),
+                    hoy.plusDays(25),
+                    LocalTime.of(21, 0),
+                    6,
+                    120.0,
+                    EstadoReserva.PENDIENTE,
+                    "terraza"));
+
+            restaurante.addReserva(new Reserva(
+                    restaurante.getClientePorDni("96385274S"),
+                    hoy.plusDays(20),
+                    LocalTime.of(13, 0),
+                    2,
+                    25.0,
+                    EstadoReserva.ATENDIDA,
+                    "barra"));
+
+            restaurante.addReserva(new Reserva(
+                    restaurante.getClientePorDni("25836914N"),
+                    hoy.plusDays(16),
+                    LocalTime.of(20, 30),
+                    4,
+                    75.0,
+                    EstadoReserva.CONFIRMADA,
+                    "interior"));
+
+            restaurante.addReserva(new Reserva(
+                    restaurante.getClientePorDni("48273615M"),
+                    hoy.plusDays(17),
+                    LocalTime.of(14, 0),
+                    3,
+                    50.0,
+                    EstadoReserva.PENDIENTE,
+                    "terraza"));
+
+            restaurante.addReserva(new Reserva(
+                    restaurante.getClientePorDni("59384726K"),
+                    hoy.plusDays(13),
+                    LocalTime.of(22, 30),
+                    2,
+                    40.0,
+                    EstadoReserva.CANCELADA,
+                    "barra"));
+
+            restaurante.addReserva(new Reserva(
+                    restaurante.getClientePorDni("74125896T"),
+                    hoy.plusDays(8),
+                    LocalTime.of(13, 30),
+                    5,
+                    90.0,
+                    EstadoReserva.CONFIRMADA,
+                    "terraza"));
+
+            restaurante.addReserva(new Reserva(
+                    restaurante.getClientePorDni("36925814P"),
+                    hoy.plusDays(12),
+                    LocalTime.of(21, 0),
+                    2,
+                    30.0,
+                    EstadoReserva.ATENDIDA,
+                    "interior"));
+
+            restaurante.addReserva(new Reserva(
+                    restaurante.getClientePorDni("85274163L"),
+                    hoy.plusDays(20),
+                    LocalTime.of(14, 0),
+                    4,
+                    70.0,
+                    EstadoReserva.PENDIENTE,
+                    "barra"));
+
+            restaurante.addReserva(new Reserva(
+                    restaurante.getClientePorDni("14785236R"),
+                    hoy.plusDays(28),
+                    LocalTime.of(22, 0),
+                    3,
+                    60.0,
+                    EstadoReserva.CONFIRMADA,
+                    "terraza"));
+
+            restaurante.addReserva(new Reserva(
+                    restaurante.getClientePorDni("96385274S"),
+                    hoy.plusDays(21),
+                    LocalTime.of(13, 0),
+                    2,
+                    20.0,
+                    EstadoReserva.CANCELADA,
+                    "interior"));
+
+            restaurante.addReserva(new Reserva(
+                    restaurante.getClientePorDni("25836914N"),
+                    hoy.plusDays(9),
+                    LocalTime.of(15, 15),
+                    10,
+                    75.0,
+                    EstadoReserva.CONFIRMADA,
+                    "interior"));
+        }
+
+        static void main(String[] args) {
+                Restaurante r = new Restaurante("Bar leyendas");
+
+                // CLIENTES
+                cargarClientes(r);
+                // RESERVAS
+                cargarReservas(r);
+
+                //Creamos el servicio
+                RestauranteService reservas = new RestauranteService(r.getReservas());
+
+        //Consultas
+            //--1--//
+             IO.println("---- 1. ----");
+             IO.println(reservas.getReservasConfirmadas(LocalDate.now()));
+
+            //--2--//
+            IO.println("---- 2. ----");
+            IO.println(reservas.getReservasGrandes(4));
+
+            //--3--//
+            IO.println("---- 3. ----");
+            IO.println(reservas.getPrimeraCancelada());
+
+            //--4--//
+            IO.println("---- 4. ----");
+            IO.println(reservas.getReservasOrdenadas(LocalDate.now()));
+
+            //--5--//
+            IO.println("---- 5. ----");
+            IO.println(reservas.getClientesReservasGrandes());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         }
 }
