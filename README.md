@@ -35,7 +35,8 @@ Funcionalidades
 - Clientes ordenados alfabéticamente
 - Reservas futuras agrupadas por fecha
 - Porcentaje de reservas canceladas
-- 
+
+
 Estructura
 app → clase Main
 modelo → Cliente, Reserva, EstadoReserva
