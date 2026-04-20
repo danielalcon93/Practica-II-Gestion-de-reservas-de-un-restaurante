@@ -58,7 +58,7 @@ Ejecutar la clase `Main`
 
 * `App` → clase `Main`
 * `Entidades` → Cliente, Reserva, EstadoReserva.
-* `Servicios` → clases `Restaurante, RestauranteService`
+* `Servicios` → Restaurante, RestauranteService
 
 ---
 
