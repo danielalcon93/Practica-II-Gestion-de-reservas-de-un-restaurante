@@ -83,7 +83,7 @@ public class RestauranteService {
     //6. Total previsto de reservas atendidas
     public double getTotalPrevistoAtendidas() {
         return reservas.stream()
-                .filter(r -> r.getEstado() == (EstadoReserva.ATENDIDA))
+                .filter(r -> r.getEstado().equals(EstadoReserva.ATENDIDA))
                 .mapToDouble(r -> r.getImportePrevisto())
                 .sum();
     }
@@ -184,7 +184,7 @@ public class RestauranteService {
     //15. Porcentaje de reservas canceladas
     public double getPorcentajeCanceladas() {
         long ReservasCanceladas = reservas.stream()
-                .filter(r -> r.getEstado() == (EstadoReserva.CANCELADA))
+                .filter(r -> r.getEstado().equals(EstadoReserva.CANCELADA))
                 .count();
         return ((double) ReservasCanceladas / reservas.size()) * 100;
     }
