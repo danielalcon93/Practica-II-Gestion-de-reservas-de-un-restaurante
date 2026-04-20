@@ -56,9 +56,9 @@ Ejecutar la clase `Main`
 
 ##  Estructura
 
-* `App` → clase `Main`
-* `Entidades` → Cliente, Reserva, EstadoReserva.
-* `Servicios` → Restaurante, RestauranteService
+* `App` → `Main`
+* `Entidades` → `Cliente`, `Reserva`, `EstadoReserva`
+* `Servicios` → `Restaurante`, `RestauranteService`
 
 ---
 
