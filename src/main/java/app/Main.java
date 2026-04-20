@@ -185,42 +185,50 @@ public class Main {
                 RestauranteService reservas = new RestauranteService(r.getReservas());
 
         //Consultas
-            //--1--//
-             IO.println("---- 1. ----");
-             IO.println(reservas.getReservasConfirmadas(LocalDate.now()));
+            IO.println("--- 1. ---> Reservas confirmadas de hoy");
+            reservas.getReservasConfirmadas(LocalDate.now()).forEach(System.out::println);
 
-            //--2--//
-            IO.println("---- 2. ----");
-            IO.println(reservas.getReservasGrandes(4));
+            IO.println("--- 2. ---> Reservas de más de 4 personas");
+            reservas.getReservasGrandes(4).forEach(System.out::println);
 
-            //--3--//
-            IO.println("---- 3. ----");
-            IO.println(reservas.getPrimeraCancelada());
+            IO.println("--- 3. ---> Primera reserva cancelada");
+            reservas.getPrimeraCancelada().ifPresent(System.out::println);
 
-            //--4--//
-            IO.println("---- 4. ----");
-            IO.println(reservas.getReservasOrdenadas(LocalDate.now()));
+            IO.println("--- 4. ---> Reservas ordenadas por personas");
+            reservas.getReservasOrdenadas(LocalDate.now()).forEach(System.out::println);
 
-            //--5--//
-            IO.println("---- 5. ----");
-            IO.println(reservas.getClientesReservasGrandes());
+            IO.println("--- 5. ---> Clientes con reservas grandes");
+            reservas.getClientesReservasGrandes().forEach(System.out::println);
 
+            IO.println("--- 6. ---> Total previsto atendidas");
+            IO.println(reservas.getTotalPrevistoAtendidas());
 
+            IO.println("--- 7. ---> Número de reservas por estado");
+            reservas.getReservasPorEstado().forEach((k,v) -> IO.println(k + ": " + v));
 
+            IO.println("--- 8. ---> Número de reservas por zona");
+            reservas.getReservasPorZona().forEach((k,v) -> IO.println(k + ": " + v));
 
+            IO.println("--- 9. ---> Reservas agrupadas por fecha");
+            reservas.getReservasAgrupadasPorFecha().forEach((k,v) -> IO.println(k + ": " + v));
 
+            IO.println("--- 10. ---> Cliente con más reservas");
+            reservas.getClienteTop().ifPresent(System.out::println);
 
+            IO.println("--- 11. ---> Recaudación por fecha");
+            reservas.getTotalPrevistoAgrupadoPorFecha().forEach((k,v) -> IO.println(k + ": " + v));
 
+            IO.println("--- 12. ---> Estadísticas de comensales");
+            IO.println(reservas.getEstadisticasNumPersonas());
 
+            IO.println("--- 13. ---> Clientes ordenados");
+            reservas.getClientes().forEach(System.out::println);
 
+            IO.println("--- 14. ---> Reservas futuras agrupadas");
+            reservas.getReservasFuturasAgrupadasPorFecha().forEach((k,v) -> IO.println(k + ": " + v));
 
-
-
-
-
-
-
-
-
-         }
+            IO.println("--- 15. ---> Porcentaje canceladas");
+            IO.println(reservas.getPorcentajeCanceladas() + "%");
+        }
 }
+

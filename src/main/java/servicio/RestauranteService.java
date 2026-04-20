@@ -1,12 +1,12 @@
 package servicio;
 
+import modelo.Cliente;
 import modelo.EstadoReserva;
 import modelo.Reserva;
 
 import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class RestauranteService {
 
@@ -76,27 +76,118 @@ public class RestauranteService {
                 .toList();
     }
 
+    /**
+     * getTotalPrevistoAtendidas(): calcular la suma total de importePrevisto de todas las reservas
+     * con estado ATENDIDA.
+     */
+    //6. Total previsto de reservas atendidas
+    public double getTotalPrevistoAtendidas() {
+        return reservas.stream()
+                .filter(r -> r.getEstado().equals(EstadoReserva.ATENDIDA))
+                .mapToDouble(r -> r.getImportePrevisto())
+                .sum();
+    }
 
+    /**
+     * getReservasPorEstado(): crear un mapa donde la clave sea el estado de la reserva y el valor sea
+     * el número total de reservas de ese estado.
+     */
+    //7. Número de reservas por estado
+    public Map<EstadoReserva, Long> getReservasPorEstado() {
+        return reservas.stream()
+                .collect(Collectors.groupingBy(Reserva::getEstado,
+                        Collectors.counting()));
+    }
 
+    /**
+     * getReservasPorZona(): crear un mapa donde la clave sea la zona ( terraza , salon , barra , etc.)
+     * y el valor sea el número de reservas de esa zona.
+     */
+    //8. Número de reservas por zona
+    public Map<String, Long> getReservasPorZona() {
+        return reservas.stream()
+                .collect(Collectors.groupingBy(Reserva::getZona,
+                        Collectors.counting()));
+    }
 
+    /**
+     * getReservasAgrupadasPorFecha(): crear un mapa donde la clave sea la fecha y el valor sea la
+     * lista de reservas de ese día.
+     */
+    //9. Reservas agrupadas por fecha
+    public Map<LocalDate, List<Reserva>> getReservasAgrupadasPorFecha() {
+        return reservas.stream()
+                .collect(Collectors.groupingBy(Reserva::getFecha));
+    }
 
+    /**
+     * getClienteTop(): obtener el cliente que más reservas tiene en el restaurante.
+     */
+    //10. Cliente con más reservas
+    public Optional<Cliente> getClienteTop() {
+        return reservas.stream()
+                .collect(Collectors.groupingBy(Reserva::getCliente,
+                        Collectors.counting()))
+                .entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey);
+    }
 
+    /**
+     * getTotalPrevistoAgrupadoPorFecha(): mostrar la suma del importe previsto de las reservas
+     * agrupada por fecha.
+     */
+    //11. Recaudación prevista por fecha
+     public Map<LocalDate, Double> getTotalPrevistoAgrupadoPorFecha() {
+        return reservas.stream()
+                .collect(Collectors.groupingBy(Reserva::getFecha,
+                        Collectors.summingDouble(Reserva::getImportePrevisto)));
+    }
 
+    /**
+     * getEstadisticasNumPersonas(): obtener estadísticas sobre el número de personas por reserva:
+     */
+    //12. Estadísticas de comensales
+    public DoubleSummaryStatistics getEstadisticasNumPersonas() {
+        return reservas.stream()
+                .collect(Collectors.summarizingDouble(Reserva::getNumPersonas));
+    }
 
+    /**
+     * getClientes(): mostrar la lista de clientes ordenada por nombre
+     */
+    //13. Clientes ordenados alfabéticamente
+    public List<Cliente> getClientes() {
+        return reservas.stream()
+                .map(r -> r.getCliente())
+                .distinct()
+                .sorted(Comparator.comparing(Cliente::getNombre))
+                .toList();
+    }
 
+    /**
+     * getReservasFuturasAgrupadasPorFecha(): crear un mapa donde la clave sea la fecha y el valor
+     * sea la lista de reservas de ese día, para las reservas a partir de hoy. Las reservas deben estar
+     * previamente ordenadas por fecha.
+     */
+    //14. Reservas futuras
+    public Map<LocalDate, List<Reserva>> getReservasFuturasAgrupadasPorFecha() {
+        return reservas.stream()
+                .filter(r -> !r.getFecha().isBefore(LocalDate.now()))
+                .sorted(Comparator.comparing(Reserva::getFecha))
+                .collect(Collectors.groupingBy(Reserva::getFecha));
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
+    /**
+     * getPorcentajeCanceladas(): calcular qué porcentaje del total de reservas están canceladas.
+     */
+    //15. Porcentaje de reservas canceladas
+    public double getPorcentajeCanceladas() {
+        long ReservasCanceladas = reservas.stream()
+                .filter(r -> r.getEstado().equals(EstadoReserva.CANCELADA))
+                .count();
+        return ((double) ReservasCanceladas / reservas.size()) * 100;
+    }
 
 
 }
