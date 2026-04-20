@@ -64,4 +64,4 @@ Ejecutar la clase `Main`
 
 ## Autor
 
-Daniel Fernandez
+Daniel Fernandez Alcon
